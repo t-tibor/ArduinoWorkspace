@@ -59,7 +59,6 @@ REMOVE = rm -f
 MV = mv -f
 
 
-PORT = /dev/tty.usbserial*
 TARGET = MoistureLogger
 ARDUINO = ../00_ArduinoCore
 ARDUINO_CORE = $(ARDUINO)/cores/arduino
@@ -71,7 +70,6 @@ ASRC = $(wildcard $(ARDUINO_CORE)/*.S)
 MCU = atmega328p
 F_CPU = 16000000
 FORMAT = ihex
-UPLOAD_RATE = 19200
 
 # Name of this Makefile (used for "make depend").
 MAKEFILE = Makefile
@@ -182,10 +180,12 @@ $(TARGET).elf: $(OBJ)
 	$(CC) -c $(ALL_ASFLAGS) $< -o $@
 
 # Programming support using avrdude. Settings and variables.
-AVRDUDE_PROGRAMMER = stk500
-AVRDUDE_PORT = $(PORT)
+UPLOAD_RATE = 115200
+AVRDUDE_PROGRAMMER = arduino
+AVRDUDE_PART = atmega328p
+AVRDUDE_PORT = /dev/ttyACM0
 AVRDUDE_WRITE_FLASH = -Uflash:w:$(TARGET).hex:i
-AVRDUDE_FLAGS = -F -p $(MCU) -v -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) -b $(UPLOAD_RATE) -D
+AVRDUDE_FLAGS = -v  -p $(AVRDUDE_PART) -c $(AVRDUDE_PROGRAMMER) -P $(AVRDUDE_PORT) -b $(UPLOAD_RATE) -D
 	
 # Program the device.  
 upload: $(TARGET).hex $(TARGET).eep

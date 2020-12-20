@@ -1,3 +1,11 @@
+# AVR files
+*.eep
+*.hex
+*.elf
+*.cpp.o
+*.c.o
+*.S.o
+
 # Prerequisites
 *.d
 
